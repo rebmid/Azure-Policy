@@ -3,10 +3,15 @@
     "displayName": "requiretagsonresources",
     "policyType": "Custom",
     "mode": "Indexed",
-		  "description": "This policy enables you to audit Cost Transparency tags",
+    "description": "This policy audits resources missing required Cost Transparency tags.",
     "metadata": {
-   "category": "Tags"
+      "category": "Tags",
+      "createdBy": "0a7b4841-a8d9-4e80-9114-144b884d9f83",
+      "createdOn": "2025-12-02T05:08:08.6032125Z",
+      "updatedBy": null,
+      "updatedOn": null
     },
+    "version": "1.0.0",
     "parameters": {
       "tagName1": {
         "type": "String",
@@ -46,32 +51,46 @@
     },
     "policyRule": {
       "if": {
-        "allOf": [
+        "anyOf": [
           {
-            "field": "[concat('tags[', parameters('tagName1'),  ']')]",
-            "exists": "false"
+            "field": "[concat('tags[', parameters('tagName1'), ']')]",
+            "exists": false
           },
           {
-            "field": "[concat('tags[', parameters('tagName2'),  ']')]",
-            "exists": "false"
+            "field": "[concat('tags[', parameters('tagName2'), ']')]",
+            "exists": false
           },
           {
-            "field": "[concat('tags[', parameters('tagName3'),  ']')]",
-            "exists": "false"
+            "field": "[concat('tags[', parameters('tagName3'), ']')]",
+            "exists": false
           },
           {
-            "field": "[concat('tags[', parameters('tagName4'),  ']')]",
-            "exists": "false"
+            "field": "[concat('tags[', parameters('tagName4'), ']')]",
+            "exists": false
           },
           {
-            "field": "[concat('tags[', parameters('tagName5'),  ']')]",
-            "exists": "false"
+            "field": "[concat('tags[', parameters('tagName5'), ']')]",
+            "exists": false
           }
         ]
       },
       "then": {
         "effect": "audit"
       }
-    }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  },
+  "id": "/providers/microsoft.management/managementgroups/contoso/providers/Microsoft.Authorization/policyDefinitions/67f26d6689e14b728469cc8a",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "67f26d6689e14b728469cc8a",
+  "systemData": {
+    "createdBy": "admin@MngEnv421485.onmicrosoft.com",
+    "createdByType": "User",
+    "createdAt": "2025-12-02T05:08:08.5323739Z",
+    "lastModifiedBy": "admin@MngEnv421485.onmicrosoft.com",
+    "lastModifiedByType": "User",
+    "lastModifiedAt": "2025-12-02T05:08:08.5323739Z"
   }
 }

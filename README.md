@@ -1,43 +1,52 @@
-Policy_Append-Cost-Tags.json
+📘 Azure Policy Library – Cost & Governance Controls
 
-Purpose: Automatically appends cost-related tags (e.g., CostCenter) to resources that do not have them.
-Effect: Append
-Use Case: Helps maintain tagging consistency for cost allocation and reporting.
+This repository contains Azure Policy definitions designed to improve governance, enforce cost discipline, and audit compliance across Azure environments.
 
-Policy-Audit-Tags.json
+📄 Available Policies
+  1. Policy_Append-Cost-Tags.json
+    Purpose:
+    Automatically appends missing cost-related tags (e.g., CostCenter, Project) to resources.
+    Effect:
+    Append
+    Use Case:
+    Ensures consistent tagging for cost allocation, reporting, and FinOps governance.
 
-Purpose: Audits resources for missing required tags.
-Effect: Audit
-Use Case: Provides visibility into resources that are non-compliant with tagging standards without blocking deployments.
+2. Policy-Audit-Tags.json
+  Purpose:
+  Audits resources for missing required tags.
+  Effect:
+  Audit
+  Use Case:
+  Provides visibility into non-compliant resources without blocking deployments.
 
-Policy-Enforce-AHR-SQLVMs.json
+3. Policy-Enforce-AHR-SQLVMs.json
+  Purpose:
+  Enforces Azure Hybrid Benefit (AHB) for SQL VMs.
+  Effect:
+  DeployIfNotExists or Audit
+  Use Case:
+  Ensures eligible SQL VMs use hybrid licensing to reduce cost.
 
-Purpose: Enforces Azure Hybrid Benefit for SQL VMs to optimize licensing costs.
-Effect: DeployIfNotExists or Audit
-Use Case: Ensures SQL VMs leverage hybrid licensing benefits where applicable.
+4. Policy-Enforce-AllHB-Windows.json
+  Purpose:
+  Enforces Azure Hybrid Benefit for Windows VMs.
+  Effect:
+  DeployIfNotExists or Audit
+  Use Case:
+  Reduces Windows VM licensing cost by ensuring hybrid benefit is applied when allowed.
 
-Policy-Enforce-AllIB-Windows.json
+5. Policy-Enforce-Cost-Tags.json
+  Purpose:
+  Requires specific cost-related tags (e.g., CostCenter, Project, Environment).
+  Effect:
+  Deny
+  Use Case:
+  Blocks resource creation when required cost tags are missing.
 
-Purpose: Enforces Azure Hybrid Benefit for all Windows VMs.
-Effect: DeployIfNotExists or Audit
-Use Case: Reduces Windows licensing costs by applying hybrid benefit.
-
-Policy-Enforce-Cost-Tags.json
-
-Purpose: Requires specific cost-related tags on resources (e.g., CostCenter, Project).
-Effect: Deny
-Use Case: Blocks resource creation if required tags are missing, ensuring compliance with cost governance.
-
-
-How to Use. Assign Policies
-
-Navigate to Azure Portal → Policy → Assign Policy.
-Select the appropriate scope (Management Group or Subscription).
-Upload the JSON file and configure parameters as needed.
-
-
-Best Practices
-
-Apply policies at management group level for enterprise-wide governance.
-Combine multiple policies into initiatives for easier management.
-Regularly review compliance reports and adjust policies as needed.
+📘 How to Use These Policies
+Assigning Policies in Azure Portal
+  Navigate to Azure Portal → Policy → Assign Policy
+  Select the appropriate scope (Management Group or Subscription)
+  Upload the JSON file
+  Configure required parameters
+  Save and evaluate compliance

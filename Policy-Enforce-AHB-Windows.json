@@ -1,46 +1,78 @@
 {
-  "properties": {
-    "displayName": "Enforce Azure Hybrid Benefit for Windows",
-    "policyType": "Custom",
-    "mode": "All",
-    "description": "This policy will enforce usage of hybrid use benefit for Windows VMs.",
-    "policyRule": {
-      "if": {
-        "allOf": [
-          {
-            "field": "type",
-            "in": [
-              "Microsoft.Compute/virtualMachines",
-              "Microsoft.Compute/VirtualMachineScaleSets"
-            ]
-          },
-          {
-            "field": "Microsoft.Compute/imagePublisher",
-            "in": [
-              "MicrosoftWindowsServer",
-              "MicrosoftWindowsDesktop"
-            ]
-          },
-          {
-            "field": "Microsoft.Compute/imageOffer",
-            "in": [
-              "WindowsServer",
-              "Windows-10",
-              "Windows-11"
-            ]
-          },
-          {
-            "field": "Microsoft.Compute/licenseType",
-            "notin": [
-              "Windows_Server",
-              "Windows_Client"
-            ]
-          }
-        ]
-      },
-      "then": {
-        "effect": "deny"
-      }
+  "displayName": "Enforce Azure Hybrid Benefit for Windows",
+  "policyType": "Custom",
+  "mode": "Indexed",
+  "description": "This policy enforces the use of Azure Hybrid Benefit (AHB) for Windows VMs and VM Scale Sets.",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "in": [
+            "Microsoft.Compute/virtualMachines",
+            "Microsoft.Compute/virtualMachineScaleSets"
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "field": "Microsoft.Compute/imagePublisher",
+              "in": [
+                "MicrosoftWindowsServer",
+                "MicrosoftWindowsDesktop"
+              ]
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.imageReference.publisher",
+              "in": [
+                "MicrosoftWindowsServer",
+                "MicrosoftWindowsDesktop"
+              ]
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "field": "Microsoft.Compute/imageOffer",
+              "in": [
+                "WindowsServer",
+                "Windows-10",
+                "Windows-11"
+              ]
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachineScaleSets/virtualMachineProfile.storageProfile.imageReference.offer",
+              "in": [
+                "WindowsServer",
+                "Windows-10",
+                "Windows-11"
+              ]
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "field": "Microsoft.Compute/licenseType",
+              "notIn": [
+                "Windows_Server",
+                "Windows_Client"
+              ]
+            },
+            {
+              "field": "Microsoft.Compute/licenseType",  
+              "notIn": [
+                "Windows_Server",
+                "Windows_Client"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "deny"
     }
   }
 }

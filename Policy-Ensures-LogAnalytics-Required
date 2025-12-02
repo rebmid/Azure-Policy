@@ -1,0 +1,145 @@
+{
+  "mode": "All",
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Resources/subscriptions"
+        }
+      ]
+    },
+    "then": {
+      "effect": "deployIfNotExists",
+      "details": {
+        "type": "Microsoft.Insights/diagnosticSettings",
+        "deploymentScope": "subscription",
+        "roleDefinitionIds": [
+          "/providers/Microsoft.Authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+          "/providers/Microsoft.Authorization/roleDefinitions/2b629674-e913-4c01-ae53-ef4638d8f975",
+          "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+          "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7",
+          "/providers/Microsoft.Authorization/roleDefinitions/c12c1c16-33a1-487b-954d-41c89c60f349",
+          "/providers/Microsoft.Authorization/roleDefinitions/f526a384-b230-433a-b45c-95f59c4a2dec"
+        ],
+        "existenceCondition": {
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Insights/diagnosticSettings"
+            },
+            {
+              "field": "name",
+              "equals": "ActivityLogsToEventHub"
+            }
+          ]
+        },
+        "deployment": {
+          "location": "eastus",
+          "properties": {
+            "mode": "incremental",
+            "parameters": {
+              "eventHubAuthorizationRuleId": {
+                "value": "[parameters('eventHubAuthorizationRuleId')]"
+              },
+              "eventHubName": {
+                "value": "[parameters('eventHubName')]"
+              },
+              "eventHubPolicyName": {
+                "value": "[parameters('eventHubPolicyName')]"
+              }
+            },
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+                "eventHubAuthorizationRuleId": {
+                  "type": "string"
+                },
+                "eventHubName": {
+                  "type": "string",
+                  "defaultValue": ""  // Default value added
+                },
+                "eventHubPolicyName": {
+                  "type": "string",
+                  "defaultValue": ""  // Default value added
+                }
+              },
+              "resources": [
+                {
+                  "type": "Microsoft.Insights/diagnosticSettings",
+                  "apiVersion": "2021-05-01-preview",
+                  "name": "ActivityLogsToEventHub",
+                  "properties": {
+                    "logs": [
+                      {
+                        "category": "Administrative",
+                        "enabled": true
+                      },
+                      {
+                        "category": "Security",
+                        "enabled": true
+                      },
+                      {
+                        "category": "Alert",
+                        "enabled": true
+                      },
+                      {
+                        "category": "Policy",
+                        "enabled": true
+                      },
+                      {
+                        "category": "Autoscale",
+                        "enabled": true
+                      },
+                      {
+                        "category": "ResourceHealth",
+                        "enabled": true
+                      },
+                      {
+                        "category": "ServiceHealth",
+                        "enabled": true
+                      },
+                      {
+                        "category": "Recommendation",
+                        "enabled": true
+                      }
+                    ],
+                    "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
+                    "eventHubName": "[parameters('eventHubName')]",
+                    "eventHubPolicyName": "[parameters('eventHubPolicyName')]"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "parameters": {
+    "eventHubAuthorizationRuleId": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Event Hub Authorization Rule ID",
+        "description": "Provide the Event Hub connection string for logs."
+      }
+    },
+    "eventHubName": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Event Hub Name",
+        "description": "Provide the name of the Event Hub to stream logs to."
+      },
+      "defaultValue": ""  // Default value added
+    },
+    "eventHubPolicyName": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Event Hub Policy Name",
+        "description": "Provide the Event Hub policy name for access."
+      },
+      "defaultValue": ""  // Default value added
+    }
+  }
+}

@@ -1,5 +1,4 @@
 {
-  "properties": {
     "displayName": "appendtags",
     "policyType": "Custom",
     "mode": "Indexed",
@@ -130,4 +129,3 @@
       }
     }
   }
-}
